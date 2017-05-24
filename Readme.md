@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алексей Е.](https://up.htmlacademy.ru/ecmascript/2/user/61758).
-* Наставник: `Неизвестно`.
+* Наставник: [Игорь Алексеенко](https://up.htmlacademy.ru/ecmascript/2/user/100868).
 
 ---
 

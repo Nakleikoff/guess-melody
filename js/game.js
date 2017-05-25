@@ -1,31 +1,36 @@
-
 (() => {
+
+  const templates = document.querySelector(`#templates`).content;
 
   /**
    * Представляет игру
    * @constructor
    */
-  let Game = function () {
-    this.app = document.querySelector(`.app`);
-    this.current = this.app.querySelector(`.main`);
+  const Game = function () {
 
-    const templates = document.querySelector(`#templates`).content;
+    this.appElement = document.querySelector(`.app`);
+    this.currentScreenElement = this.appElement.querySelector(`.main`);
+    this.index = 0;
 
-    [`.main--welcome`, `.main--level-genre`, `.main--level-artist`, `.main--result-failure`, `.main--result-success`].forEach((screen) => {
-      this.screens.push(templates.querySelector(screen));
-    });
+    this.screens = [
+      `.main--welcome`,
+      `.main--level-genre`,
+      `.main--level-artist`,
+      `.main--result-failure`,
+      `.main--result-success`
+    ].map((screen) => templates.querySelector(screen));
 
     /**
      * Нажать кнопку на клавиатуре
      * @param {KeyboardEvent} evt - событие
      */
     const onDocumentKeyDown = (evt) => {
-      if (!evt.altKey) {
+      if (!window.utils.isAltPressed(evt)) {
         return;
       }
-      if (evt.keyCode === window.utils.ARROW_LEFT_CODE) {
+      if (window.utils.isLeftArrowPressed(evt)) {
         this.prevScreen();
-      } else if (evt.keyCode === window.utils.ARROW_RIGHT_CODE) {
+      } else if (window.utils.isRightArrowPressed(evt)) {
         this.nextScreen();
       }
     };
@@ -33,70 +38,56 @@
     document.addEventListener(`keydown`, onDocumentKeyDown);
   };
 
-  Game.prototype = {
-    /**
-     * DOM-элемент приложения
-     * @type {Element|null}
-     */
-    app: null,
+  /**
+   * Массив с экранами
+   * @type {?Array.<Element>}
+   */
+  Game.prototype.screens = null;
 
-    /**
-     * Массив с экранами
-     * @type {Array.<Element>}
-     */
-    screens: [],
+  /**
+   * DOM-элемент приложения
+   * @type {?Element}
+   */
+  Game.prototype.appElement = null;
 
-    /**
-     * Индекс текущего экрана
-     * @type {number}
-     */
-    index: 0,
+  /**
+   * DOM-элемент текущего экрана
+   * @type {?Element}
+   */
+  Game.prototype.currentScreenElement = null;
 
-    /**
-     * DOM-элемент текущего экрана
-     * @type {Element|null}
-     */
-    current: null,
-
-    /**
-     * Начать игру
-     */
-    start() {
-      this.showScreen(this.index);
-    },
-
-    /**
-     * Переключить на следующий экран
-     */
-    nextScreen() {
-      this.index++;
-      if (this.index === this.screens.length) {
-        this.index = 0;
-      }
-      this.showScreen(this.index);
-    },
-
-    /**
-     * Переключить на предыдущий экран
-     */
-    prevScreen() {
-      this.index--;
-      if (this.index < 0) {
-        this.index = this.screens.length - 1;
-      }
-      this.showScreen(this.index);
-    },
-
-    /**
-     * Показать экран
-     * @param {number} screen - индекс экрана
-     */
-    showScreen(screen) {
-      const current = this.screens[screen];
-      this.app.replaceChild(current, this.current);
-      this.current = current;
-    }
+  /**
+   * Начать игру
+   */
+  Game.prototype.start = function () {
+    this.showScreen(this.index);
   };
 
-  window.Game = Game;
+  /**
+   * Переключить на следующий экран
+   */
+  Game.prototype.nextScreen = function () {
+    this.index = this.index === (this.screens.length - 1) ? 0 : ++this.index;
+    this.showScreen(this.index);
+  };
+
+  /**
+   * Переключить на предыдущий экран
+   */
+  Game.prototype.prevScreen = function () {
+    this.index = this.index === 0 ? this.screens.length - 1 : --this.index;
+    this.showScreen(this.index);
+  };
+
+  /**
+   * Показать экран
+   * @param {number} screenIndex - индекс экрана
+   */
+  Game.prototype.showScreen = function (screenIndex) {
+    const currentScreen = this.screens[screenIndex];
+    this.appElement.replaceChild(currentScreen, this.currentScreenElement);
+    this.currentScreenElement = currentScreen;
+  };
+
+  window.game = new Game();
 })();

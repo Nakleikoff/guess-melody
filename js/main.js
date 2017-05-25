@@ -1,7 +1,5 @@
-
 (() => {
 
-  const game = new window.Game();
-  game.start();
+  window.game.start();
 
 })();

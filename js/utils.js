@@ -1,22 +1,22 @@
 (() => {
 
   /**
+   * Код клавишы стрелочки влево
+   * @constant {number}
+   */
+  const ARROW_LEFT_CODE = 37;
+
+  /**
+   * Код клавишы стрелочки вправо
+   * @constant {number}
+   */
+  const ARROW_RIGHT_CODE = 39;
+
+  /**
    * Объект со вспомогательными утилитами
    * @type {Utils}
    */
   window.utils = {
-    /**
-     * Код клавишы стрелочки влево
-     * @constant {number}
-     */
-    ARROW_LEFT_CODE: 37,
-
-    /**
-     * Код клавишы стрелочки вправо
-     * @constant {number}
-     */
-    ARROW_RIGHT_CODE: 39,
-
     /**
      * Нажат Alt
      * @param {KeyboardEvent} evt - событие
@@ -32,7 +32,7 @@
      * @return {boolean}
      */
     isLeftArrowPressed(evt) {
-      return evt.keyCode === this.ARROW_LEFT_CODE;
+      return evt.keyCode === ARROW_LEFT_CODE;
     },
 
     /**
@@ -41,7 +41,7 @@
      * @return {boolean}
      */
     isRightArrowPressed(evt) {
-      return evt.keyCode === this.ARROW_RIGHT_CODE;
+      return evt.keyCode === ARROW_RIGHT_CODE;
     },
   };
 })();

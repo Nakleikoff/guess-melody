@@ -67,7 +67,7 @@
    * Переключить на следующий экран
    */
   Game.prototype.nextScreen = function () {
-    this.index = this.index === (this.screens.length - 1) ? 0 : ++this.index;
+    this.index = (this.index + 1) % this.screens.length;
     this.showScreen(this.index);
   };
 
@@ -75,7 +75,7 @@
    * Переключить на предыдущий экран
    */
   Game.prototype.prevScreen = function () {
-    this.index = this.index === 0 ? this.screens.length - 1 : --this.index;
+    this.index = (this.screens.length + this.index - 1) % this.screens.length;
     this.showScreen(this.index);
   };
 
@@ -84,7 +84,7 @@
    * @param {number} screenIndex - индекс экрана
    */
   Game.prototype.showScreen = function (screenIndex) {
-    const currentScreen = this.screens[screenIndex];
+    const currentScreen = this.screens[screenIndex].cloneNode(true);
     this.appElement.replaceChild(currentScreen, this.currentScreenElement);
     this.currentScreenElement = currentScreen;
   };

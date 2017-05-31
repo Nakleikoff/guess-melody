@@ -1,5 +1,3 @@
-(() => {
 
-  window.game.start();
-
-})();
+import game from './game';
+game.start();
